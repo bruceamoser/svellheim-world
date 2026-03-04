@@ -4,8 +4,8 @@
   "description": "Svellheim campaign setting for the Draw Steel system. Provides character options (ancestries, cultures, careers), world-level journals, and campaign reference material.",
   "url": "https://github.com/bruceamoser/svellheim-world",
   "manifest": "https://github.com/bruceamoser/svellheim-world/releases/latest/download/module.json",
-  "download": "https://github.com/bruceamoser/svellheim-world/releases/download/v0.4.0/svellheim-v0.4.0.zip",
-  "version": "0.4.0",
+  "download": "https://github.com/bruceamoser/svellheim-world/releases/download/v0.4.1/svellheim-v0.4.1.zip",
+  "version": "0.4.1",
   "authors": [
     {
       "name": "Bruce A. Moser"
@@ -23,6 +23,10 @@
     ],
     "requires": [
       {
+        "id": "svellheim-entities",
+        "type": "module"
+      },
+      {
         "id": "svellheim-act1",
         "type": "module"
       },
@@ -39,7 +43,8 @@
   "scripts": [
     "scripts/register-languages.js",
     "scripts/register-faith.js",
-    "scripts/register-polyglot.js"
+    "scripts/register-polyglot.js",
+    "scripts/compendium-installer.js"
   ],
   "packs": [
     {

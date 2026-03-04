@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 
 /**
- * Compendium Installer – Svellheim Character Options
+ * Compendium Installer – Svellheim Campaign
  *
- * Adds a button in module settings that opens a dialog allowing the GM to
- * import all (or selected) compendium packs into the world.
+ * Detects all installed Svellheim modules (world, entities, acts 1–3) and
+ * provides a unified dialog for importing their compendium packs into the world.
  *
  * Uses:
  *   game.settings.registerMenu  → button in Module Settings
@@ -16,17 +16,63 @@
   const SETTING_IMPORTED = 'importedPacks'; // hidden – tracks what was imported
 
   /* ------------------------------------------------------------------ */
-  /*  Pack metadata (order matches module.json)                          */
+  /*  Module → Pack definitions (auto-detected at runtime)               */
   /* ------------------------------------------------------------------ */
-  const PACKS = [
-    { name: 'svellheim-origins',           label: 'Svellheim Origins',                      type: 'Item' },
-    { name: 'svellheim-faith',             label: 'Svellheim Faith (Gods & Domains)',        type: 'Item' },
-    { name: 'svellheim-rewards',           label: 'Svellheim Rewards (Projects & Treasures)',type: 'Item' },
-    { name: 'svellheim-npcs',              label: 'Svellheim NPCs',                         type: 'Actor' },
-    { name: 'svellheim-monsters',          label: 'Svellheim Monsters',                     type: 'Actor' },
-    { name: 'svellheim-montage-tests',     label: 'Svellheim Montage Tests',                type: 'Item' },
-    { name: 'svellheim-negotiation-tests', label: 'Svellheim Negotiation Tests',            type: 'Item' },
-    { name: 'svellheim-handout-journals',  label: 'Svellheim Handout Journals',             type: 'JournalEntry' },
+  const MODULE_GROUPS = [
+    {
+      moduleId: 'svellheim',
+      label: 'Svellheim (World)',
+      packs: [
+        { name: 'svellheim-origins',           label: 'Origins (Ancestries, Cultures, Careers)', type: 'Item' },
+        { name: 'svellheim-faith',             label: 'Faith (Gods & Domains)',                  type: 'Item' },
+        { name: 'svellheim-campaign',          label: 'Campaign Journals',                       type: 'JournalEntry' },
+        { name: 'svellheim-director-journals', label: 'Director Journals (World)',                type: 'JournalEntry' },
+        { name: 'svellheim-player-journals',   label: 'Player Journals (World)',                  type: 'JournalEntry' },
+        { name: 'svellheim-handout-journals',  label: 'Handout Journals',                        type: 'JournalEntry' },
+      ],
+    },
+    {
+      moduleId: 'svellheim-entities',
+      label: 'Svellheim Entities',
+      packs: [
+        { name: 'svellheim-npcs',      label: 'NPCs',                           type: 'Actor' },
+        { name: 'svellheim-monsters',  label: 'Monsters',                       type: 'Actor' },
+        { name: 'svellheim-items',     label: 'Items',                          type: 'Item' },
+        { name: 'svellheim-rewards',   label: 'Rewards (Projects & Treasures)', type: 'Item' },
+        { name: 'svellheim-projects',  label: 'Downtime Projects',              type: 'Item' },
+        { name: 'svellheim-imbuings',  label: 'Imbuing Projects',               type: 'Item' },
+      ],
+    },
+    {
+      moduleId: 'svellheim-act1',
+      label: 'Act 1 — Restore the Flame',
+      packs: [
+        { name: 'svellheim-director-journals', label: 'Director Journals', type: 'JournalEntry' },
+        { name: 'svellheim-player-journals',   label: 'Player Journals',   type: 'JournalEntry' },
+        { name: 'svellheim-montage-tests',     label: 'Montage Tests',     type: 'Item' },
+        { name: 'svellheim-negotiation-tests', label: 'Negotiation Tests', type: 'Item' },
+      ],
+    },
+    {
+      moduleId: 'svellheim-act2',
+      label: 'Act 2 — The Deep Road',
+      packs: [
+        { name: 'svellheim-director-journals', label: 'Director Journals', type: 'JournalEntry' },
+        { name: 'svellheim-player-journals',   label: 'Player Journals',   type: 'JournalEntry' },
+        { name: 'svellheim-montage-tests',     label: 'Montage Tests',     type: 'Item' },
+        { name: 'svellheim-negotiation-tests', label: 'Negotiation Tests', type: 'Item' },
+      ],
+    },
+    {
+      moduleId: 'svellheim-act3',
+      label: 'Act 3 — The Burning',
+      packs: [
+        { name: 'svellheim-director-journals', label: 'Director Journals', type: 'JournalEntry' },
+        { name: 'svellheim-player-journals',   label: 'Player Journals',   type: 'JournalEntry' },
+        { name: 'svellheim-montage-tests',     label: 'Montage Tests',     type: 'Item' },
+        { name: 'svellheim-negotiation-tests', label: 'Negotiation Tests', type: 'Item' },
+      ],
+    },
   ];
 
   /* ------------------------------------------------------------------ */
@@ -39,7 +85,7 @@
         id: 'svellheim-compendium-installer',
         title: 'Svellheim Compendium Installer',
         template: `modules/${MODULE_ID}/templates/compendium-installer.html`,
-        width: 520,
+        width: 560,
         height: 'auto',
         closeOnSubmit: false,
       });
@@ -48,19 +94,37 @@
     /** @override */
     getData() {
       const imported = this._getImportedSet();
-      const packs = PACKS.map((p) => {
-        const collection = game.packs.get(`${MODULE_ID}.${p.name}`);
-        const count = collection?.index?.size ?? '?';
-        return {
-          name: p.name,
-          label: p.label,
-          type: p.type,
-          count,
-          imported: imported.has(p.name),
-          checked: !imported.has(p.name),
-        };
-      });
-      return { packs };
+      const groups = [];
+
+      for (const group of MODULE_GROUPS) {
+        // Skip modules that aren't installed or active
+        const mod = game.modules.get(group.moduleId);
+        if (!mod?.active) continue;
+
+        const packs = group.packs.map((p) => {
+          const packKey = `${group.moduleId}.${p.name}`;
+          const collection = game.packs.get(packKey);
+          const count = collection?.index?.size ?? '?';
+          const qualifiedName = `${group.moduleId}::${p.name}`;
+          return {
+            qualifiedName,
+            packKey,
+            label: p.label,
+            type: p.type,
+            count,
+            imported: imported.has(qualifiedName),
+            checked: !imported.has(qualifiedName),
+          };
+        });
+
+        groups.push({
+          moduleId: group.moduleId,
+          label: group.label,
+          packs,
+        });
+      }
+
+      return { groups };
     }
 
     /** @override */
@@ -76,8 +140,25 @@
 
     /** @override */
     async _updateObject(_event, formData) {
-      const selected = PACKS.filter((p) => formData[p.name]);
-      if (!selected.length) {
+      // Collect selected packs across all active module groups
+      const allPacks = [];
+      for (const group of MODULE_GROUPS) {
+        const mod = game.modules.get(group.moduleId);
+        if (!mod?.active) continue;
+        for (const p of group.packs) {
+          const qualifiedName = `${group.moduleId}::${p.name}`;
+          if (formData[qualifiedName]) {
+            allPacks.push({
+              qualifiedName,
+              packKey: `${group.moduleId}.${p.name}`,
+              label: p.label,
+              groupLabel: group.label,
+            });
+          }
+        }
+      }
+
+      if (!allPacks.length) {
         ui.notifications.warn('No packs selected for import.');
         return;
       }
@@ -85,7 +166,7 @@
       // Confirm before importing
       const proceed = await Dialog.confirm({
         title: 'Confirm Import',
-        content: `<p>Import <strong>${selected.length}</strong> compendium pack(s) into the world?</p>
+        content: `<p>Import <strong>${allPacks.length}</strong> compendium pack(s) into the world?</p>
                   <p>Each pack will be placed in its own folder. Existing documents will <em>not</em> be duplicated if they share the same ID.</p>`,
         yes: () => true,
         no: () => false,
@@ -97,24 +178,23 @@
       let success = 0;
       let failed = 0;
 
-      for (const p of selected) {
-        const packKey = `${MODULE_ID}.${p.name}`;
-        const pack = game.packs.get(packKey);
+      for (const p of allPacks) {
+        const pack = game.packs.get(p.packKey);
         if (!pack) {
-          console.warn(`[${MODULE_ID}] Pack not found: ${packKey}`);
-          ui.notifications.error(`Pack not found: ${p.label}`);
+          console.warn(`[${MODULE_ID}] Pack not found: ${p.packKey}`);
+          ui.notifications.error(`Pack not found: ${p.label} (${p.groupLabel})`);
           failed++;
           continue;
         }
 
         try {
-          ui.notifications.info(`Importing ${p.label}…`);
-          await pack.importAll({ folderName: p.label, keepId: true });
-          imported.add(p.name);
+          ui.notifications.info(`Importing ${p.groupLabel} → ${p.label}…`);
+          await pack.importAll({ folderName: `${p.groupLabel}: ${p.label}`, keepId: true });
+          imported.add(p.qualifiedName);
           success++;
-          console.log(`[${MODULE_ID}] Imported pack: ${p.label}`);
+          console.log(`[${MODULE_ID}] Imported pack: ${p.packKey}`);
         } catch (err) {
-          console.error(`[${MODULE_ID}] Failed to import ${p.label}`, err);
+          console.error(`[${MODULE_ID}] Failed to import ${p.packKey}`, err);
           ui.notifications.error(`Failed to import ${p.label}. See console (F12) for details.`);
           failed++;
         }
@@ -162,7 +242,7 @@
       game.settings.registerMenu(MODULE_ID, 'compendiumInstaller', {
         name: 'Compendium Installer',
         label: 'Import Compendiums',
-        hint: 'Import all Svellheim compendium packs (origins, faith, NPCs, monsters, items, journals, etc.) into your world.',
+        hint: 'Import compendium packs from all installed Svellheim modules (world, entities, acts 1–3) into your world.',
         icon: 'fas fa-download',
         type: SvellheimImporter,
         restricted: true, // GM only

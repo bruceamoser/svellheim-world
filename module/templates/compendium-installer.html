@@ -16,19 +16,26 @@
 
   <hr />
 
-  <div style="max-height: 400px; overflow-y: auto;">
-    {{#each packs}}
-    <div style="display: flex; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--color-border-light-tertiary, #ddd);">
-      <input type="checkbox" name="{{this.name}}" id="pack-{{this.name}}"
-             {{#if this.checked}}checked{{/if}}
-             style="margin-right: 8px;" />
-      <label for="pack-{{this.name}}" style="flex: 1; cursor: pointer;">
+  <div style="max-height: 500px; overflow-y: auto;">
+    {{#each groups}}
+    <div style="margin-top: 0.75em;">
+      <h3 style="margin: 0 0 0.25em 0; font-size: 1em; border-bottom: 2px solid var(--color-border-highlight, #7a7971);">
         {{this.label}}
-        <span style="opacity: 0.6; font-size: 0.85em;">({{this.type}}, {{this.count}} entries)</span>
-      </label>
-      {{#if this.imported}}
-      <i class="fas fa-check-circle" title="Previously imported" style="color: green; margin-left: 4px;"></i>
-      {{/if}}
+      </h3>
+      {{#each this.packs}}
+      <div style="display: flex; align-items: center; padding: 4px 0 4px 12px; border-bottom: 1px solid var(--color-border-light-tertiary, #ddd);">
+        <input type="checkbox" name="{{this.qualifiedName}}" id="pack-{{this.qualifiedName}}"
+               {{#if this.checked}}checked{{/if}}
+               style="margin-right: 8px;" />
+        <label for="pack-{{this.qualifiedName}}" style="flex: 1; cursor: pointer;">
+          {{this.label}}
+          <span style="opacity: 0.6; font-size: 0.85em;">({{this.type}}, {{this.count}} entries)</span>
+        </label>
+        {{#if this.imported}}
+        <i class="fas fa-check-circle" title="Previously imported" style="color: green; margin-left: 4px;"></i>
+        {{/if}}
+      </div>
+      {{/each}}
     </div>
     {{/each}}
   </div>

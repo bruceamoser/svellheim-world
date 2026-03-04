@@ -7,10 +7,10 @@ const crypto = require('node:crypto');
 
 const REPO_ROOT = process.cwd();
 
-const MODULE_ID = 'svellheim-character-options';
+const MODULE_ID = 'svellheim';
 const PACK_NAME = 'svellheim-origins';
-const PACK_DIR = path.join(REPO_ROOT, 'svellheim-character-options', 'module', 'packs', 'svellheim-origins');
-const MODULE_DATA_DIR = path.join(REPO_ROOT, 'svellheim-character-options', 'module', 'data');
+const PACK_DIR = path.join(REPO_ROOT, 'module', 'packs', 'svellheim-origins');
+const MODULE_DATA_DIR = path.join(REPO_ROOT, 'module', 'data');
 
 const MODULE_ASSET_BASE = `modules/${MODULE_ID}/assets/icons`;
 const TYPE_DEFAULT_ICONS = {

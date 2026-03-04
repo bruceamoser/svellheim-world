@@ -7,8 +7,8 @@ const crypto = require('node:crypto');
 
 const REPO_ROOT = process.cwd();
 
-const MODULE_ID = 'svellheim-character-options';
-const MODULE_DIR = path.join(REPO_ROOT, 'svellheim-character-options', 'module');
+const MODULE_ID = 'svellheim';
+const MODULE_DIR = path.join(REPO_ROOT, 'module');
 
 const PACK_NAME = 'svellheim-faith';
 const PACK_DIR = path.join(MODULE_DIR, 'packs', PACK_NAME);

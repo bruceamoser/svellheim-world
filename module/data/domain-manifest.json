@@ -10,44 +10,44 @@
     {
       "domainId": "frost",
       "itemId": "1eKybFJAokXwkKhu",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.1eKybFJAokXwkKhu"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.1eKybFJAokXwkKhu"
     },
     {
       "domainId": "runes",
       "itemId": "K8cG0aQDVLvKgv1V",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.K8cG0aQDVLvKgv1V"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.K8cG0aQDVLvKgv1V"
     },
     {
       "domainId": "strength",
       "itemId": "thmU7bKYtM7pHQLL",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.thmU7bKYtM7pHQLL"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.thmU7bKYtM7pHQLL"
     },
     {
       "domainId": "vengeance",
       "itemId": "1GCDJrtFbYSd069B",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.1GCDJrtFbYSd069B"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.1GCDJrtFbYSd069B"
     }
   ],
   "censor": [
     {
       "domainId": "frost",
       "itemId": "1R1ChuXbGNzxGAyU",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.1R1ChuXbGNzxGAyU"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.1R1ChuXbGNzxGAyU"
     },
     {
       "domainId": "runes",
       "itemId": "yFH9t6gvpg7xg7Ox",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.yFH9t6gvpg7xg7Ox"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.yFH9t6gvpg7xg7Ox"
     },
     {
       "domainId": "strength",
       "itemId": "1Ll0pnCZIa1HW5zk",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.1Ll0pnCZIa1HW5zk"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.1Ll0pnCZIa1HW5zk"
     },
     {
       "domainId": "vengeance",
       "itemId": "PbkXkgJ2GSmh506o",
-      "uuid": "Compendium.svellheim-character-options.svellheim-faith.Item.PbkXkgJ2GSmh506o"
+      "uuid": "Compendium.svellheim.svellheim-faith.Item.PbkXkgJ2GSmh506o"
     }
   ]
 }

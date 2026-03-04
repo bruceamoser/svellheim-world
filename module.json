@@ -1,11 +1,11 @@
 {
-  "id": "svellheim-character-options",
-  "title": "Svellheim: Character Options",
-  "description": "Svellheim setting character options (ancestries, cultures, careers) for the Draw Steel system.",
-  "url": "https://github.com/bruceamoser/svellheim-character-options",
-  "manifest": "https://github.com/bruceamoser/svellheim-character-options/releases/latest/download/module.json",
-  "download": "https://github.com/bruceamoser/svellheim-character-options/releases/download/v0.3.4/svellheim-character-options-v0.3.4.zip",
-  "version": "0.3.4",
+  "id": "svellheim",
+  "title": "Svellheim",
+  "description": "Svellheim campaign setting for the Draw Steel system. Provides character options (ancestries, cultures, careers), world-level journals, and campaign reference material.",
+  "url": "https://github.com/bruceamoser/svellheim-world",
+  "manifest": "https://github.com/bruceamoser/svellheim-world/releases/latest/download/module.json",
+  "download": "https://github.com/bruceamoser/svellheim-world/releases/download/v0.4.0/svellheim-v0.4.0.zip",
+  "version": "0.4.0",
   "authors": [
     {
       "name": "Bruce A. Moser"
@@ -19,6 +19,20 @@
     "systems": [
       {
         "id": "draw-steel"
+      }
+    ],
+    "requires": [
+      {
+        "id": "svellheim-act1",
+        "type": "module"
+      },
+      {
+        "id": "svellheim-act2",
+        "type": "module"
+      },
+      {
+        "id": "svellheim-act3",
+        "type": "module"
       }
     ]
   },
@@ -44,50 +58,22 @@
       "system": "draw-steel"
     },
     {
-      "name": "svellheim-rewards",
-      "label": "Svellheim Rewards (Projects & Treasures)",
-      "path": "packs/svellheim-rewards",
-      "type": "Item",
+      "name": "svellheim-campaign",
+      "label": "Svellheim Campaign (Journals)",
+      "path": "packs/svellheim-campaign",
+      "type": "JournalEntry",
       "system": "draw-steel"
     },
     {
-      "name": "svellheim-npcs",
-      "label": "Svellheim NPCs",
-      "path": "packs/svellheim-npcs",
-      "type": "Actor",
-      "system": "draw-steel"
-    },
-    {
-      "name": "svellheim-monsters",
-      "label": "Svellheim Monsters",
-      "path": "packs/svellheim-monsters",
-      "type": "Actor",
-      "system": "draw-steel"
-    },
-    {
-      "name": "svellheim-montage-tests",
-      "label": "Svellheim Montage Tests",
-      "path": "packs/svellheim-montage-tests",
-      "type": "Item",
-      "system": "draw-steel"
-    },
-    {
-      "name": "svellheim-negotiation-tests",
-      "label": "Svellheim Negotiation Tests",
-      "path": "packs/svellheim-negotiation-tests",
-      "type": "Item",
-      "system": "draw-steel"
-    },
-    {
-      "name": "svellheim-items",
-      "label": "Svellheim Campaign Items",
-      "path": "packs/svellheim-items",
-      "type": "Item",
+      "name": "svellheim-director-journals",
+      "label": "Svellheim Director Journals (World)",
+      "path": "packs/svellheim-director-journals",
+      "type": "JournalEntry",
       "system": "draw-steel"
     },
     {
       "name": "svellheim-player-journals",
-      "label": "Svellheim Player Journals",
+      "label": "Svellheim Player Journals (World)",
       "path": "packs/svellheim-player-journals",
       "type": "JournalEntry",
       "system": "draw-steel"

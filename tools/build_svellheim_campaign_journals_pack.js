@@ -10,10 +10,11 @@ const { marked } = require('marked');
 
 const REPO_ROOT = process.cwd();
 
-const MODULE_ID = 'svellheim-character-options';
-const MODULE_DIR = path.join(REPO_ROOT, 'svellheim-character-options', 'module');
+const MODULE_ID = 'svellheim';
+const MODULE_DIR = path.join(REPO_ROOT, 'module');
 
-const CAMPAIGN_ROOT = path.join(REPO_ROOT, 'campaign', 'docs');
+// Cross-repo: reads campaign source from Era-of-Embers sibling repo
+const CAMPAIGN_ROOT = path.join(REPO_ROOT, '..', 'Era-of-Embers', 'campaign', 'docs');
 
 const PACK_NAME = 'svellheim-campaign';
 const PACK_DIR = path.join(MODULE_DIR, 'packs', PACK_NAME);
@@ -25,7 +26,8 @@ const FAITH_PACK_NAME = 'svellheim-faith';
 const FAITH_PACK_DIR = path.join(MODULE_DIR, 'packs', FAITH_PACK_NAME);
 
 const DRAW_STEEL_PACKAGE_ID = 'draw-steel';
-const DRAW_STEEL_PACKS_DIR = path.join(REPO_ROOT, 'reference', 'draw-steel-packs');
+// Cross-repo: reads Draw Steel reference packs from MCP sibling repo
+const DRAW_STEEL_PACKS_DIR = path.join(REPO_ROOT, '..', 'draw-steel-foundry-vtt-mcp', 'reference', 'draw-steel-packs');
 const DRAW_STEEL_PACK_NAMES = ['origins', 'character-options', 'classes', 'abilities'];
 
 const BASE62_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';

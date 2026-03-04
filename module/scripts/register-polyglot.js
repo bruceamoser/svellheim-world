@@ -29,7 +29,7 @@
  */
 
 Hooks.once('polyglot.init', (LanguageProvider) => {
-  const MODULE_ID = 'svellheim-character-options';
+  const MODULE_ID = 'svellheim';
 
   class SvellheimLanguageProvider extends LanguageProvider {
     /* ------------------------------------------------------------------ */

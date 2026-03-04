@@ -14,10 +14,10 @@
  * to each journal entry.
  *
  * Usage (from repo root):
- *   node foundry-svellheim-character-options/tools/build_svellheim_handout_journals_pack.js
+ *   node tools/build_svellheim_handout_journals_pack.js
  *
  * Output:
- *   foundry-svellheim-character-options/module/packs/svellheim-handout-journals/  (LevelDB)
+ *   module/packs/svellheim-handout-journals/  (LevelDB)
  */
 
 const fs = require('node:fs');
@@ -26,8 +26,8 @@ const crypto = require('node:crypto');
 
 // ── Paths ──────────────────────────────────────────────────────────────
 const REPO_ROOT   = process.cwd();
-const MODULE_DIR  = path.join(REPO_ROOT, 'foundry-svellheim-character-options', 'module');
-const DATA_ROOT   = path.join(REPO_ROOT, 'foundry-svellheim-character-options', 'data');
+const MODULE_DIR  = path.join(REPO_ROOT, 'module');
+const DATA_ROOT   = path.join(REPO_ROOT, 'data');
 const PACK_NAME   = 'svellheim-handout-journals';
 const PACK_DIR    = path.join(MODULE_DIR, 'packs', PACK_NAME);
 

@@ -1,0 +1,8 @@
+{
+	"servers": {
+    "draw-steel-foundry-vtt-mcp": {
+      "command": "node",
+      "args": ["c:\\Repos\\draw-steel-foundry-vtt-mcp\\dist\\index.js"]
+    }
+	}
+}

@@ -7,7 +7,7 @@ const path = require('node:path');
 const archiver = require('archiver');
 
 // Paths are relative to the script location so dist output always lands
-// under foundry-svellheim-character-options/dist/ regardless of cwd.
+// under dist/ regardless of cwd.
 const SCRIPT_DIR = __dirname;
 const MODULE_PKG_ROOT = path.resolve(SCRIPT_DIR, '..');
 const REPO_ROOT = process.cwd();
@@ -96,7 +96,7 @@ async function main() {
   const tag = args.tag || `v${version}`;
   const zipBaseName = args.zip || `${moduleId}-v${version}.zip`;
 
-  // Always output into foundry-svellheim-character-options/dist/foundry/
+  // Always output into dist/foundry/
   const distDir = path.join(MODULE_PKG_ROOT, 'dist', 'foundry');
   const zipOutPath = path.join(distDir, zipBaseName);
   const manifestOutPath = path.join(distDir, 'module.json');
@@ -105,7 +105,7 @@ async function main() {
   // so we don't override the correct repo with a hardcoded default.
   // Falls back to --repo arg or the module's url field.
   const repoFromUrl = (mod.url || '').replace(/^https?:\/\/github\.com\//, '').replace(/\/$/, '');
-  const repo = args.repo || repoFromUrl || 'bruceamoser/svellheim-character-options';
+  const repo = args.repo || repoFromUrl || 'bruceamoser/svellheim-world';
 
   // Update manifest and download URLs, stamping the current version into the
   // download path while preserving the correct repo.

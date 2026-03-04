@@ -12,7 +12,7 @@
  *   CompendiumCollection#importAll({ folderName }) → actual import
  */
 (() => {
-  const MODULE_ID = 'svellheim-character-options';
+  const MODULE_ID = 'svellheim';
   const SETTING_IMPORTED = 'importedPacks'; // hidden – tracks what was imported
 
   /* ------------------------------------------------------------------ */

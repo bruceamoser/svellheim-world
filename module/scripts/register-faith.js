@@ -20,7 +20,7 @@
  */
 
 (() => {
-  const MODULE_ID = 'svellheim-character-options';
+  const MODULE_ID = 'svellheim';
   const DS_CLASSES_PACK = 'draw-steel.classes';
 
   let manifest = null;

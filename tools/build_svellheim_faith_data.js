@@ -6,10 +6,11 @@ const path = require('node:path');
 
 const REPO_ROOT = process.cwd();
 
-const MODULE_ID = 'svellheim-character-options';
-const MODULE_DIR = path.join(REPO_ROOT, 'foundry-svellheim-character-options', 'module');
+const MODULE_ID = 'svellheim';
+const MODULE_DIR = path.join(REPO_ROOT, 'module');
 
-const PANTHEON_ADOC = path.join(REPO_ROOT, 'campaign', 'docs', '01-The-World', '03-Pantheon', '01-The-Pantheon.adoc');
+// Cross-repo: reads pantheon source from Era-of-Embers sibling repo
+const PANTHEON_ADOC = path.join(REPO_ROOT, '..', 'Era-of-Embers', 'campaign', 'docs', '01-The-World', '03-Pantheon', '01-The-Pantheon.adoc');
 
 const OUT_PATH = path.join(MODULE_DIR, 'data', 'faith.json');
 

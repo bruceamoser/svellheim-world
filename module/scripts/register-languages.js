@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 (() => {
-  const MODULE_ID = 'svellheim-character-options';
+  const MODULE_ID = 'svellheim';
 
   const SETTING_LANGUAGE_MODE = 'languageMode';
 

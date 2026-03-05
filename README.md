@@ -1,6 +1,6 @@
-# Svellheim World
+# Svellheim: Campaign World
 
-A Foundry VTT module for the [Draw Steel](https://mcdm.gg/DrawSteel) system providing the Svellheim campaign setting — character options, campaign journals, faith system, and world reference material.
+A Foundry VTT module for the [Draw Steel](https://mcdm.gg/DrawSteel) system providing the Svellheim campaign setting — character origins, campaign journals, faith system, and world reference material.
 
 This is the **world module** in a multi-module ecosystem:
 

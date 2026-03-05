@@ -1,5 +1,0 @@
-2026/02/26-19:39:49.711 7394 Delete type=3 #1
-2026/02/26-19:39:49.734 cec Level-0 table #5: started
-2026/02/26-19:39:49.749 cec Level-0 table #5: 212402 bytes OK
-2026/02/26-19:39:49.753 cec Delete type=0 #3
-2026/02/26-19:39:49.753 cec Manual compaction at level-0 from '\x00' @ 72057594037927935 : 1 .. '\xc3\xbf' @ 0 : 0; will stop at (end)

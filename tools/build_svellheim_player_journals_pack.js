@@ -27,7 +27,7 @@ const crypto = require('node:crypto');
 const REPO_ROOT = process.cwd();
 const MODULE_DIR = path.join(REPO_ROOT, 'module');
 const SOURCE_DIR = path.join(REPO_ROOT, 'data', 'player-journals');
-const PACK_NAME = 'svellheim-player-journals';
+const PACK_NAME = 'svellheim-world-player-journals';
 const PACK_DIR = path.join(MODULE_DIR, 'packs', PACK_NAME);
 
 // ── Deterministic ID helpers ───────────────────────────────────────────

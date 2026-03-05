@@ -1,0 +1,97 @@
+{
+  "id": "svellheim",
+  "title": "Svellheim: Campaign World",
+  "description": "Svellheim campaign world module for the Draw Steel system. Provides character origins (ancestries, cultures, careers), faiths, world-level journals, and campaign reference material.",
+  "url": "https://github.com/bruceamoser/svellheim-world",
+  "manifest": "https://github.com/bruceamoser/svellheim-world/releases/latest/download/module.json",
+  "download": "https://github.com/bruceamoser/svellheim-world/releases/download/v0.4.2/svellheim-v0.4.2.zip",
+  "version": "0.4.2",
+  "authors": [
+    {
+      "name": "Bruce A. Moser"
+    }
+  ],
+  "compatibility": {
+    "minimum": "11",
+    "verified": "13"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "draw-steel"
+      }
+    ],
+    "requires": [
+      {
+        "id": "svellheim-entities",
+        "type": "module",
+        "manifest": "https://github.com/bruceamoser/Svellheim-Entities/releases/latest/download/module.json"
+      },
+      {
+        "id": "svellheim-act1",
+        "type": "module",
+        "manifest": "https://github.com/bruceamoser/Svellheim-Act1/releases/latest/download/module.json"
+      },
+      {
+        "id": "svellheim-act2",
+        "type": "module",
+        "manifest": "https://github.com/bruceamoser/Svellheim-Act2/releases/latest/download/module.json"
+      },
+      {
+        "id": "svellheim-act3",
+        "type": "module",
+        "manifest": "https://github.com/bruceamoser/Svellheim-Act3/releases/latest/download/module.json"
+      }
+    ]
+  },
+  "scripts": [
+    "scripts/register-languages.js",
+    "scripts/register-faith.js",
+    "scripts/register-polyglot.js",
+    "scripts/compendium-installer.js"
+  ],
+  "packs": [
+    {
+      "name": "svellheim-origins",
+      "label": "Svellheim Origins",
+      "path": "packs/svellheim-origins",
+      "type": "Item",
+      "system": "draw-steel"
+    },
+    {
+      "name": "svellheim-faith",
+      "label": "Svellheim Faith (Gods & Domains)",
+      "path": "packs/svellheim-faith",
+      "type": "Item",
+      "system": "draw-steel"
+    },
+    {
+      "name": "svellheim-campaign",
+      "label": "Svellheim Campaign (Journals)",
+      "path": "packs/svellheim-campaign",
+      "type": "JournalEntry",
+      "system": "draw-steel"
+    },
+    {
+      "name": "svellheim-director-journals",
+      "label": "Svellheim Director Journals (World)",
+      "path": "packs/svellheim-director-journals",
+      "type": "JournalEntry",
+      "system": "draw-steel"
+    },
+    {
+      "name": "svellheim-player-journals",
+      "label": "Svellheim Player Journals (World)",
+      "path": "packs/svellheim-player-journals",
+      "type": "JournalEntry",
+      "system": "draw-steel"
+    },
+    {
+      "name": "svellheim-handout-journals",
+      "label": "Svellheim Handout Journals",
+      "path": "packs/svellheim-handout-journals",
+      "type": "JournalEntry",
+      "system": "draw-steel"
+    }
+  ]
+}

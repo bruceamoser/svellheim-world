@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "dependencies": {
+    "@asciidoctor/core": "^3.0.4",
+    "classic-level": "^3.0.0",
+    "marked": "^17.0.4"
+  }
+}

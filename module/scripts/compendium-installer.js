@@ -37,10 +37,8 @@
       packs: [
         { name: 'svellheim-npcs',      label: 'NPCs',                           type: 'Actor' },
         { name: 'svellheim-monsters',  label: 'Monsters',                       type: 'Actor' },
-        { name: 'svellheim-items',     label: 'Items',                          type: 'Item' },
-        { name: 'svellheim-rewards',   label: 'Rewards (Projects & Treasures)', type: 'Item' },
-        { name: 'svellheim-projects',  label: 'Downtime Projects',              type: 'Item' },
-        { name: 'svellheim-imbuings',  label: 'Imbuing Projects',               type: 'Item' },
+        { name: 'svellheim-items',     label: 'Items & Treasures',              type: 'Item' },
+        { name: 'svellheim-projects',  label: 'Projects',                       type: 'Item' },
       ],
     },
     {

@@ -54,12 +54,10 @@ foundry-svellheim-character-options/
 │   │   ├── svellheim-faith/
 │   │   ├── svellheim-campaign/
 │   │   ├── svellheim-handout-journals/
-│   │   ├── svellheim-rewards/
-│   │   ├── svellheim-projects/
-│   │   ├── svellheim-imbuings/
 │   │   ├── svellheim-npcs/
 │   │   ├── svellheim-monsters/
 │   │   ├── svellheim-items/
+│   │   ├── svellheim-projects/
 │   │   ├── svellheim-montage-tests/
 │   │   └── svellheim-negotiation-tests/
 │   ├── assets/icons/                #   Custom icons
@@ -89,12 +87,10 @@ foundry-svellheim-character-options/
 | Svellheim Faith | `svellheim-faith` | Item | feature (domains) | *(built from faith.json)* | ~20 |
 | Svellheim Campaign | `svellheim-campaign` | JournalEntry | — | *(built from code)* | ~30 |
 | Svellheim Handout Journals | `svellheim-handout-journals` | JournalEntry | — | `data/player-journals/` | 11 |
-| Svellheim Rewards | `svellheim-rewards` | Item | mixed | *(built from code)* | varies |
-| **Svellheim Projects** | `svellheim-projects` | Item | `project` | `data/projects/` | **37** |
-| **Svellheim Imbuing Projects** | `svellheim-imbuings` | Item | `treasure` | `data/imbuing-projects/` | **36** |
 | Svellheim NPCs | `svellheim-npcs` | Actor | npc | `data/npcs/` | 5 |
 | Svellheim Monsters | `svellheim-monsters` | Actor | creature | `data/monsters/` | 7 |
-| Svellheim Items | `svellheim-items` | Item | treasure | `data/items/` | 10 |
+| Svellheim Items & Treasures | `svellheim-items` | Item | treasure, feature, title | `data/items/` + inline | **61** |
+| Svellheim Projects | `svellheim-projects` | Item | project | `data/projects/` + `data/imbuing-projects/` + inline | **88** |
 | Svellheim Montage Tests | `svellheim-montage-tests` | Item | montageTest | `data/montage-tests/` | 7 |
 | Svellheim Negotiation Tests | `svellheim-negotiation-tests` | Item | negotiationTest | `data/negotiation-tests/` | 5 |
 

@@ -4,21 +4,26 @@
   "description": "Svellheim campaign world module for the Draw Steel system. Provides character origins (ancestries, cultures, careers), faiths, world-level journals, and campaign reference material.",
   "url": "https://github.com/bruceamoser/svellheim-world",
   "manifest": "https://github.com/bruceamoser/svellheim-world/releases/latest/download/module.json",
-  "download": "https://github.com/bruceamoser/svellheim-world/releases/download/v0.4.12/svellheim-v0.4.12.zip",
-  "version": "0.4.12",
+  "download": "https://github.com/bruceamoser/svellheim-world/releases/download/v0.4.13/svellheim-v0.4.13.zip",
+  "version": "0.4.13",
   "authors": [
     {
       "name": "Bruce A. Moser"
     }
   ],
   "compatibility": {
-    "minimum": "11",
-    "verified": "13"
+    "minimum": "13",
+    "verified": "13.351"
   },
   "relationships": {
     "systems": [
       {
-        "id": "draw-steel"
+        "id": "draw-steel",
+        "type": "system",
+        "compatibility": {
+          "minimum": "0.9.0",
+          "verified": "0.11.1"
+        }
       }
     ],
     "requires": [

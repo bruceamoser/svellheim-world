@@ -7,6 +7,16 @@ const crypto = require('node:crypto');
 
 const REPO_ROOT = process.cwd();
 
+// Allow overriding the campaign docs location (e.g., when running from a different repo).
+// Priority: --campaign-root CLI flag > CAMPAIGN_DOCS_ROOT env var > sibling 'Era-of-Embers' directory.
+function getCampaignDocsRoot() {
+  const idx = process.argv.indexOf('--campaign-root');
+  if (idx !== -1 && process.argv[idx + 1]) return process.argv[idx + 1];
+  if (process.env.CAMPAIGN_DOCS_ROOT) return process.env.CAMPAIGN_DOCS_ROOT;
+  return path.resolve(__dirname, '..', '..', 'Era-of-Embers');
+}
+const CAMPAIGN_DOCS_ROOT = getCampaignDocsRoot();
+
 const MODULE_ID = 'svellheim';
 const PACK_NAME = 'svellheim-origins';
 const PACK_DIR = path.join(REPO_ROOT, 'module', 'packs', 'svellheim-origins');
@@ -66,7 +76,7 @@ function iconForEntry({ type, dsid, name }) {
 }
 
 const ANCESTRIES_DOC = path.join(
-  REPO_ROOT,
+  CAMPAIGN_DOCS_ROOT,
   'campaign',
   'docs',
   '02-Character-Options',
@@ -75,7 +85,7 @@ const ANCESTRIES_DOC = path.join(
 );
 
 const CULTURES_DOC = path.join(
-  REPO_ROOT,
+  CAMPAIGN_DOCS_ROOT,
   'campaign',
   'docs',
   '02-Character-Options',
@@ -85,7 +95,7 @@ const CULTURES_DOC = path.join(
 );
 
 const CAREERS_DIR = path.join(
-  REPO_ROOT,
+  CAMPAIGN_DOCS_ROOT,
   'campaign',
   'docs',
   '02-Character-Options',
@@ -95,7 +105,7 @@ const CAREERS_DIR = path.join(
 );
 
 const LANGUAGES_DOC = path.join(
-  REPO_ROOT,
+  CAMPAIGN_DOCS_ROOT,
   'campaign',
   'docs',
   '01-The-World',
@@ -181,6 +191,7 @@ function parseAncestries(adocText) {
       stability: null,
       budgetPoints: null,
       signatureTrait: null,
+      signatureTraits: [],
       purchasedTraits: [],
     };
 
@@ -212,8 +223,9 @@ function parseAncestries(adocText) {
       }
     }
 
-    // Find signature trait paragraph and purchased trait table.
+    // Find signature trait paragraph(s) and purchased trait table.
     // Signature block starts with ".Signature Trait:" line.
+    // An ancestry may have multiple signature traits (e.g. Veilfolk).
     let sigName = null;
     let sigTextLines = [];
     let inSig = false;
@@ -224,6 +236,11 @@ function parseAncestries(adocText) {
 
       const sig = /^\.Signature Trait:\s*(.+)\s*$/.exec(l);
       if (sig) {
+        // Flush any in-progress signature trait before starting the next one.
+        if (inSig && sigName) {
+          record.signatureTraits.push({ name: sigName, description: sigTextLines.join('\n') });
+          sigTextLines = [];
+        }
         sigName = sig[1].trim();
         inSig = true;
         continue;
@@ -244,12 +261,14 @@ function parseAncestries(adocText) {
       }
     }
 
+    // Flush final in-progress signature trait.
+    // (inSig is false when the loop broke via .Purchased Traits, so check sigName directly.)
     if (sigName) {
-      record.signatureTrait = {
-        name: sigName,
-        description: sigTextLines.join('\n'),
-      };
+      record.signatureTraits.push({ name: sigName, description: sigTextLines.join('\n') });
     }
+
+    // Back-compat: expose first trait as signatureTrait for callers still using that field.
+    if (record.signatureTraits.length > 0) record.signatureTrait = record.signatureTraits[0];
 
     // Continue from current j to locate purchased trait table.
     // In this repo's AsciiDoc, the table rows are single-line: "| 1 | **Trait:** description".
@@ -308,8 +327,8 @@ function parseAncestries(adocText) {
       }
     }
 
-    // Keep record if it has a budget and signature trait.
-    if (record.budgetPoints != null && record.signatureTrait) ancestries.push(record);
+    // Keep record if it has a budget and at least one signature trait.
+    if (record.budgetPoints != null && record.signatureTraits.length > 0) ancestries.push(record);
 
     i = j;
   }
@@ -641,16 +660,21 @@ function mkUuidForId(itemId) {
 function mkAncestryFromParsed(parsed) {
   const ancestrySlug = slugify(parsed.name);
 
-  // Signature trait item
-  const sigTrait = mkItemBase({
-    name: parsed.signatureTrait.name,
-    type: 'ancestryTrait',
-    dsid: `${ancestrySlug}-${slugify(parsed.signatureTrait.name)}`,
-    descriptionHtml: htmlP(parsed.signatureTrait.description || ''),
+  // Signature trait items (one per signature trait – most ancestries have one, Veilfolk has two).
+  const sigTraits = parsed.signatureTraits.map((st) => {
+    const trait = mkItemBase({
+      name: st.name,
+      type: 'ancestryTrait',
+      dsid: `${ancestrySlug}-${slugify(st.name)}`,
+      descriptionHtml: htmlP(st.description || ''),
+    });
+    trait.system.points = null;
+    return trait;
   });
-  sigTrait.system.points = null;
 
-  const sigEffects = autoEffectsForAncestryTrait({ traitItem: sigTrait, rawText: parsed.signatureTrait.description || '' });
+  const sigEffects = sigTraits.flatMap((trait, idx) =>
+    autoEffectsForAncestryTrait({ traitItem: trait, rawText: parsed.signatureTraits[idx].description || '' })
+  );
 
   // Purchased trait items
   const purchased = parsed.purchasedTraits.map((t) => {
@@ -685,15 +709,20 @@ function mkAncestryFromParsed(parsed) {
   });
 
   // Advancements for DS character creator.
-  const sigAdvId = foundryIdFromSlug(`adv:${ancestrySlug}:signature`);
-  ancestry.system.advancements[sigAdvId] = {
-    name: 'Signature Trait',
-    img: 'icons/magic/death/grave-tombstone-glow-tan.webp',
-    type: 'itemGrant',
-    requirements: { level: null },
-    _id: sigAdvId,
-    pool: [{ uuid: mkUuidForId(sigTrait._id) }],
-  };
+  // One itemGrant per signature trait (most ancestries have one; Veilfolk has two).
+  for (let si = 0; si < sigTraits.length; si++) {
+    const sigTrait = sigTraits[si];
+    const label = sigTraits.length > 1 ? `Signature Trait: ${sigTrait.name}` : 'Signature Trait';
+    const sigAdvId = foundryIdFromSlug(`adv:${ancestrySlug}:signature:${si}`);
+    ancestry.system.advancements[sigAdvId] = {
+      name: label,
+      img: 'icons/magic/death/grave-tombstone-glow-tan.webp',
+      type: 'itemGrant',
+      requirements: { level: null },
+      _id: sigAdvId,
+      pool: [{ uuid: mkUuidForId(sigTrait._id) }],
+    };
+  }
 
   const purchAdvId = foundryIdFromSlug(`adv:${ancestrySlug}:purchased`);
   ancestry.system.advancements[purchAdvId] = {
@@ -715,7 +744,7 @@ function mkAncestryFromParsed(parsed) {
     delete t._generatedEffects;
   }
 
-  return { ancestry, sigTrait, purchasedTraits: purchased, effects };
+  return { ancestry, sigTraits, purchasedTraits: purchased, effects };
 }
 
 function mkCultureFromTemplate(tpl) {
@@ -978,6 +1007,8 @@ function parseBuildArgs(argv) {
         .split(',')
         .map((s) => s.trim())
         .filter(Boolean);
+    } else if (a === '--campaign-root') {
+      i++; // value consumed by getCampaignDocsRoot() above
     } else if (a === '--help' || a === '-h') {
       args.help = true;
     } else {
@@ -1093,10 +1124,10 @@ async function main() {
       folders.push(ancestryFolder, featuresFolder);
 
       built.ancestry.folder = ancestryFolder._id;
-      built.sigTrait.folder = featuresFolder._id;
+      for (const t of built.sigTraits) t.folder = featuresFolder._id;
       for (const t of built.purchasedTraits) t.folder = featuresFolder._id;
 
-      items.push(built.ancestry, built.sigTrait, ...built.purchasedTraits);
+      items.push(built.ancestry, ...built.sigTraits, ...built.purchasedTraits);
       if (built.effects && built.effects.length) effects.push(...built.effects);
     }
   }

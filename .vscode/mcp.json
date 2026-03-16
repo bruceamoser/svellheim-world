@@ -3,6 +3,10 @@
     "draw-steel-foundry-vtt-mcp": {
       "command": "node",
       "args": ["${workspaceFolder:draw-steel-foundry-vtt-mcp}/dist/index.js"]
+    },
+    "svellheim-rag": {
+      "command": "${workspaceFolder:local-rag-v1}/.venv/Scripts/python.exe",
+      "args": ["${workspaceFolder:local-rag-v1}/mcp_server.py"]
     }
 	}
 }
